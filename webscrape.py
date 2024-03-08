@@ -1,8 +1,11 @@
 import requests
+ 
 
 def geocode_address(api_key, address):
     base_url = "http://dev.virtualearth.net/REST/v1/Locations"
 
+    print("letian is the goat")
+    
     params = {
         "query": address,
         "key": api_key,
