@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Addresses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Addresses</h1>
+        <form action="/solve" method="post">
+            <label for="Burj">Burj:</label>
+            <input type="text" id="Burj" name="Burj" value="1 Mohammed Bin Rashid Boulevard, Downtown Dubai, Dubai 9440">
+            
+            <label for="Mall">Mall:</label>
+            <input type="text" id="Mall" name="Mall" value="Sheikh Mohammed bin Rashid Boulevard Address Dubai Mall, Dubai">
+            
+            <label for="Opera">Opera:</label>
+            <input type="text" id="Opera" name="Opera" value="25898 87691, Dubai, Dubai">
+            
+            <label for="Ski">Ski:</label>
+            <input type="text" id="Ski" name="Ski" value="Mall of the Emirates, Dubai">
+            
+            <label for="Garden">Garden:</label>
+            <input type="text" id="Garden" name="Garden" value="Al Barsha South 3, Dubai United Arab Emirates 00000">
+            
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

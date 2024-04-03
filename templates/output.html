@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VRP Path</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: auto; /* Adjusted width */
+            max-width: 80%; /* Maximum width to prevent overflow */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .snake {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .word {
+            padding: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .arrow {
+            margin: 0 10px;
+            font-size: 1.5em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VRP Path</h1>
+        <div class="snake">
+            {% for word in path %}
+                <div class="word">{{ word }}</div>
+                {% if not loop.last %}
+                    <span class="arrow">&rarr;</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

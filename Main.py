@@ -1,4 +1,4 @@
-from Algorithm import VehicleRoutingProblemAlgorithm as VRP
+from Algorithm import VRP0
 from Scraper import WebScraper
 
 # Replace with your Bing Maps API key
@@ -14,27 +14,4 @@ addresses = {
     'Ski': 'Mall of the Emirates, Dubai',
     'Garden': 'Al Barsha South 3, Dubai United Arab Emirates 00000'
 }
-
-#Using Scraper class here to scrape with our API key and the given dictionary of addresses.
-scraper = WebScraper(API_KEY, addresses)
-distance_matrix = scraper.distance(addresses)
-
-#Small piece of code that converts scraper output into a form that is used by Algorithm
-#Honestly, could just make this a part of the Scraper and make Main.py look cleaner.
-#This is a later Shammas task.
-big_matrix = []
-for loc, nbrs in distance_matrix.items():
-    local_matrix = []
-    for nbr, dist in nbrs.items():
-        local_matrix.append(int(dist))
-    big_matrix.append(local_matrix)
-
-#Data initialization for Algorithm.
-#Will be connecting front end to this part of backend as well
-num_days = 1
-hotel_index = 0
-all_locations = list(addresses.keys())
-
-#Solving using Vehicle Routing Problem Solution
-vrp = VRP(big_matrix, num_days, hotel_index)
-vrp.solve(all_locations)
+VRP0(addresses)
