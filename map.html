@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map with Path</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .path-container {
+            display: flex;
+            align-items: center;
+        }
+        .place {
+            margin-bottom: 10px;
+        }
+        .number {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Map</h1>
+    <div class="path-container">
+        <div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m58!1m12!1m3!1d97659.93564601098!2d-97.84008051544127!3d30.281109965157672!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m43!3e0!4m5!1s0x8644b49cad215905%3A0x49bbecda89e7679e!2sRamada%20by%20Wyndham%20Austin%20South%2C%204323%20S%20I-35%20Frontage%20Rd%2C%20Austin%2C%20TX%2078744!3m2!1d30.211868499999998!2d-97.75280599999999!4m5!1s0x8644b455532cb5d9%3A0xfde0595cf3bb90df!2sBoardwalk%2C%20Austin%2C%20TX!3m2!1d30.250195899999998!2d-97.73667499999999!4m5!1s0x8644b51b0e822a65%3A0xc03ac22ba09158c7!2sTerry%20Black&#39;s%20Barbecue%2C%20Barton%20Springs%20Road%2C%20Austin%2C%20TX!3m2!1d30.2597015!2d-97.75482339999999!4m5!1s0x8644b5a014ac8dcf%3A0xcb6f5722a795d039!2sTexas%20Capitol%2C%20Congress%20Avenue%2C%20Austin%2C%20TX!3m2!1d30.274665199999998!2d-97.74035049999999!4m5!1s0x8644cac7ee429207%3A0xf6ed5dc92fba8803!2sMt%20Bonnell%2C%20Austin%2C%20TX!3m2!1d30.320761599999997!2d-97.77334019999999!4m5!1s0x865b234b3c3d1495%3A0x74e585eef7396b82!2sLake%20Travis%2C%20Texas!3m2!1d30.4205138!2d-97.9102647!4m5!1s0x8644b49cad215905%3A0x49bbecda89e7679e!2sRamada%20by%20Wyndham%20Austin%20South%2C%204323%20S%20I-35%20Frontage%20Rd%2C%20Austin%2C%20TX%2078744!3m2!1d30.211868499999998!2d-97.75280599999999!5e0!3m2!1sen!2sus!4v1712702131971!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div style="margin-left: 20px;">
+            <h2>Path:</h2>
+            {% for place in path %}
+                <div class="place">
+                    <span class="number">{{ loop.index }}</span>{{ place }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+

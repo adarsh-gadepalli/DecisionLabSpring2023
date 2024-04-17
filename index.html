@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Places to Visit!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a237e; /* Dark blue color */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 40px);
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .add-button {
+            padding: 8px;
+            background-color: #1a237e; /* Dark blue color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px auto; /* Center the button and add space */
+            display: block; /* Make the button a block element */
+        }
+
+        .delete-button {
+            padding: 3px;
+            background-color: #f44336; /* Red color */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .delete-button:hover {
+            background-color: #ba000d; /* Darker red color on hover */
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #1a237e; /* Dark blue color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px; /* Add space between the buttons */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0d47a1; /* Darker blue color on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Places to Visit!</h1>
+        <form action="/solve" method="post" id="placeForm">
+            <label for="placeInput1">Place 1:</label>
+            <input type="text" id="placeInput1" name="placeInput1" list="places1" oninput="fetchAddresses(this.value, 'places1')" required>
+            <datalist id="places1"></datalist>
+            <div id="additionalPlaces"></div>
+            <button type="button" class="add-button" onclick="addPlace()">Add Another Place</button>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script>
+        let placeCount = 1;
+
+        function addPlace() {
+            const placeInput = document.getElementById('placeInput' + placeCount);
+            if (placeInput.value.trim() === '') {
+                alert('Please enter a place name');
+                return;
+            }
+
+            placeCount++;
+            const additionalPlaces = document.getElementById('additionalPlaces');
+            const div = document.createElement('div');
+            div.setAttribute('id', 'placeDiv' + placeCount);
+            const label = document.createElement('label');
+            label.setAttribute('for', 'placeInput' + placeCount);
+            label.innerText = 'Place ' + placeCount + ':';
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('id', 'placeInput' + placeCount);
+            input.setAttribute('name', 'placeInput' + placeCount);
+            input.setAttribute('list', 'places' + placeCount);
+            input.setAttribute('oninput', 'fetchAddresses(this.value, "places' + placeCount + '")');
+            div.appendChild(label);
+            div.appendChild(input);
+            additionalPlaces.appendChild(div);
+            const datalist = document.createElement('datalist');
+            datalist.setAttribute('id', 'places' + placeCount);
+            document.body.appendChild(datalist);
+
+            // Add delete button to previous places
+            if (placeCount > 2) {
+                const previousDiv = document.getElementById('placeDiv' + (placeCount - 1));
+                const deleteButton = document.createElement('button');
+                deleteButton.setAttribute('class', 'delete-button');
+                deleteButton.setAttribute('onclick', 'deletePlace(' + (placeCount - 1) + ')');
+                deleteButton.innerText = '✖';
+                previousDiv.appendChild(deleteButton);
+            }
+        }
+
+        function deletePlace(placeIndex) {
+            const divToRemove = document.getElementById('placeDiv' + placeIndex);
+            divToRemove.remove();
+
+            // Update place numbers after the deleted place
+            for (let i = placeIndex + 1; i <= placeCount; i++) {
+                const div = document.getElementById('placeDiv' + i);
+                const label = div.querySelector('label');
+                const input = div.querySelector('input');
+                label.innerText = 'Place ' + (i - 1) + ':';
+                label.setAttribute('for', 'placeInput' + (i - 1));
+                input.setAttribute('id', 'placeInput' + (i - 1));
+                input.setAttribute('name', 'placeInput' + (i - 1));
+                input.setAttribute('list', 'places' + (i - 1));
+                input.setAttribute('oninput', 'fetchAddresses(this.value, "places' + (i - 1) + '")');
+            }
+
+            placeCount--;
+        }
+
+        async function fetchAddresses(keyword, datalistId) {
+            const url = "https://dev.virtualearth.net/REST/v1/Autosuggest";
+            const params = {
+                "query": keyword,
+                "includeEntityTypes": "Business,Address",
+                "key": "AmSsyd6lFRUcPk43ICNzM_25im4fEI5qjjlg54c9l4Xi3lx5ys5sDVBlx98-4el0"
+            };
+
+            try {
+                const response = await fetch(url + '?' + new URLSearchParams(params));
+                if (!response.ok) {
+                    throw new Error('Failed to fetch addresses');
+                }
+                const data = await response.json();
+                const datalist = document.getElementById(datalistId);
+                datalist.innerHTML = '';
+                for (let result of data.resourceSets[0].resources[0].value) {
+                    if ('name' in result && 'address' in result) {
+                        const option = document.createElement('option');
+                        option.value = result.name + ': ' + result.address.formattedAddress;  // Concatenate location name and address
+                        datalist.appendChild(option);
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
